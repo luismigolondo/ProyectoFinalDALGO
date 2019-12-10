@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -11,27 +12,84 @@ import java.util.Scanner;
 public class ProblemaB {
 
 	private static int N = 0;
-	
+
 	private static int [] k;
-	
+
 	private static int [] a;
-	
+
 	private static int [] b;
-	
-	public static int resolver()
-	{
-		return 0;
-	}
-	
+
+	// Búsqueda binaria
+	public static int binariaCola(int arr[], int T[], int l, int r, int key) 
+	{ 
+		while (r - l > 1) { 
+
+			int m = l + (r - l) / 2; 
+			if (arr[T[m]] >= key) 
+				r = m; 
+			else
+				l = m; 
+		} 
+
+		return r; 
+	} 
+
+	public static int LIS( 
+			int arr[], int n) 
+	{ 
+
+		int indicesCola[] = new int[n]; 
+
+		// Inicializado todo el arreglo de indices con 0
+		Arrays.fill(indicesCola, 0); 
+
+		int prevIndices[] = new int[n]; 
+
+		// Inicializado todo el arreglo de indices previos con -1
+		Arrays.fill(prevIndices, -1); 
+
+		// simepre apunta a una ubicacion en arreglo sin existir
+		int tam = 1; 
+
+		for (int i = 1; i < n; i++) { 
+			if (arr[i] < arr[indicesCola[0]]) 
+			{
+				// es un valor mas pequeño entonces potencial para empezar
+				indicesCola[0] = i; 
+			}
+			else if (arr[i] > arr[indicesCola[tam - 1]]) { 
+
+				// Cómo es mayor que el pasado entonces es un nuevo valor para los indices previos y cola
+				prevIndices[i] = indicesCola[tam - 1]; 
+				indicesCola[tam++] = i; 
+			} 
+			else { 
+
+				// cómo es igual, de igual forma se quiere guardar como candidato por si
+				// luego sirve mas para otra subsecuencia.
+				int pos = binariaCola(arr, indicesCola, -1, tam - 1, arr[i]); 
+
+				prevIndices[i] = indicesCola[pos - 1]; 
+				indicesCola[pos] = i; 
+			} 
+		} 
+
+		// Aqui vamos a recorrer la lista LIS resultante de la tabla A
+		for (int i = indicesCola[tam - 1]; i >= 0; i = prevIndices[i]) 
+			System.out.print(arr[i] + " "); 
+
+		return tam; 
+	} 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+
 		Scanner sc = new Scanner(System.in);
 
 		String linea = sc.nextLine();
-		for(int i = 0; sc.hasNextLine();)
+		int i = 0;
+		while (sc.hasNextLine() && Integer.parseInt(linea.split(" ")[0]) != 0)
 		{
 			if(i == 0)
 			{
@@ -50,19 +108,18 @@ public class ProblemaB {
 				a[i-1] = Integer.parseInt(arreglo[1]);
 				b[i-1] = Integer.parseInt(arreglo[2]);
 				System.out.println(k[i-1] + " " + a[i-1] + " " + b[i-1] + " ");
-				if(i + 1 % N == 0)
-					System.out.println(resolver());
-				
+				if(i % N == 0)
+					System.out.println(LIS(a, N));
+
 			}
-				
+
 			linea = sc.nextLine();
-			 i++;
-			 i = i % ( N + 1 );
+			i++;
+			i = i % ( N + 1 );
 		}
-		System.out.println("Acabe");
 		sc.close();
 		return;
-		
+
 	}
 
 }
