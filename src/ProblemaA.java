@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 /**
@@ -56,34 +59,39 @@ public class ProblemaA {
 
 	public static void main(String[] args) {
 
-		Scanner sc = new Scanner(System.in);
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String linea = null;
 
-		String linea = sc.nextLine();
-		for(int i = 0; sc.hasNextLine(); i++)
-		{
-			if(i%2 == 0)
+		try {
+			int i = 0;
+			while ((linea = br.readLine()) != null) 
 			{
-				//Entonces es el tamanio del arreglo
-				N = Integer.parseInt(linea);
-				a = new int[N];
-			}
-			else
-			{
-				//es el arreglo, aqui se llama al metodo para resolver	
-				String [] arreglo = linea.split(" ");
-				for (int j = 0; j < N; j++) 
+				if(i%2 == 0)
 				{
-					a[j] = Integer.parseInt(arreglo[j]);
+					//Entonces es el tamanio del arreglo
+					N = Integer.parseInt(linea);
+					a = new int[N];
 				}
-				//Aca se resuelve y responde
-				System.out.println(SR(a));
-			}
+				else
+				{
+					//es el arreglo, aqui se llama al metodo para resolver	
+					String [] arreglo = linea.split(" ");
+					for (int j = 0; j < N; j++) 
+					{
+						a[j] = Integer.parseInt(arreglo[j]);
+					}
+					//Aca se resuelve y responde
+					System.out.println(SR(a));
+				}
 
-			linea = sc.nextLine();
-			if(linea.equals("0"))
-				break;
-		}
-		sc.close();
+				if(linea.equals("0"))
+					return;
+				i++;
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		};
 		return;
 
 	}

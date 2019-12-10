@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 /**
@@ -5,30 +8,30 @@ import java.util.Scanner;
  *
  */
 public class ProblemaC {
-	
+
 	private int x;
-	
+
 	private int y;
 
 	private int[] CoordX;
-	
+
 	private int[] CoordY;
-	
+
 	private int tamanio;
-	
+
 	private int dim;
-	
+
 	private int maxX;
-	
+
 	private int minX;
-	
+
 	//private int tocaIzq;
 	//private int noTocaIzq;
 	//private int tocaDer;
 	//private int noTocaDer;
-	
+
 	private int contadorDer;
-	
+
 	private int contadorIzq;
 
 	public ProblemaC(int tam,int x1,int y1, int[] X, int[] Y,int dimension, int min, int max ) {
@@ -281,10 +284,9 @@ public class ProblemaC {
 	 */
 	public static void main(String[] args) {
 
-		Scanner sc = new Scanner(System.in);
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String linea = null;
 
-		String linea = sc.nextLine();
-		
 		int M=0;
 		int N=0;
 		int a=0;
@@ -293,58 +295,63 @@ public class ProblemaC {
 		int maximo=0;
 		int[] x =new int[1];
 		int[] y=new int[1];
-		
-		for(int i = 0; sc.hasNextLine(); i++)
-		{
-			String [] arreglo = linea.split(" ");
-			if(i%2 == 0)
+
+		try {
+			int i = 0;
+			while ((linea = br.readLine()) != null) 
 			{
-				//Entonces asignamos M N a b
-				M = Integer.parseInt(arreglo[0]);
-				N = Integer.parseInt(arreglo[1]);
-				a = Integer.parseInt(arreglo[2]);
-				b = Integer.parseInt(arreglo[3]);
-				x = new int [N+1];
-				y = new int [N+1];
-				//System.out.println();
-				//System.out.println(M + " " + N + " " + a + " " + b);
-			}
-			else
-			{
-				//es el arreglo, aqui se llama al metodo para resolver
-				//contador de posiciones
-				int k = 0;
-				minimo=M;
-				maximo=0;
-				for (int j = 0; j < 2* N; j += 2) {
-					x[k] = Integer.parseInt(arreglo[j]);
-					y[k] = Integer.parseInt(arreglo[j+1]);
-					if (y[k]== b)
-						y[k]+=1;
-					//System.out.print(x[k] + " ");
-					//System.out.print(y[k] + " ");
-					if (minimo>x[k]) {
-						minimo=x[k];
-					}
-					if (maximo<x[k]) {
-						maximo=x[k];
-					}
-					k++;
+				String [] arreglo = linea.split(" ");
+				if(i%2 == 0)
+				{
+					//Entonces asignamos M N a b
+					M = Integer.parseInt(arreglo[0]);
+					N = Integer.parseInt(arreglo[1]);
+					a = Integer.parseInt(arreglo[2]);
+					b = Integer.parseInt(arreglo[3]);
+					x = new int [N+1];
+					y = new int [N+1];
+					//System.out.println();
+					//System.out.println(M + " " + N + " " + a + " " + b);
 				}
-				x[N] = Integer.parseInt(arreglo[0]);
-				y[N] = Integer.parseInt(arreglo[1]);
-				//Aca se resuelve y responde
-				ProblemaC prob=new ProblemaC(N,a,b,x,y,M,minimo,maximo);
-				//System.out.println();
-				//System.out.println(minimo + "min max    "+ maximo);
-				System.out.println(prob.Resultado());
+				else
+				{
+					//es el arreglo, aqui se llama al metodo para resolver
+					//contador de posiciones
+					int k = 0;
+					minimo=M;
+					maximo=0;
+					for (int j = 0; j < 2* N; j += 2) {
+						x[k] = Integer.parseInt(arreglo[j]);
+						y[k] = Integer.parseInt(arreglo[j+1]);
+						if (y[k]== b)
+							y[k]+=1;
+						//System.out.print(x[k] + " ");
+						//System.out.print(y[k] + " ");
+						if (minimo>x[k]) {
+							minimo=x[k];
+						}
+						if (maximo<x[k]) {
+							maximo=x[k];
+						}
+						k++;
+					}
+					x[N] = Integer.parseInt(arreglo[0]);
+					y[N] = Integer.parseInt(arreglo[1]);
+					//Aca se resuelve y responde
+					ProblemaC prob=new ProblemaC(N,a,b,x,y,M,minimo,maximo);
+					//System.out.println();
+					//System.out.println(minimo + "min max    "+ maximo);
+					System.out.println(prob.Resultado());
+				}
+				if(linea.equals("0 0 0 0"))
+					return;
+				i++;
 			}
-			linea = sc.nextLine();
-			if(linea.equals("0 0 0 0"))
-				break;
-		}
-		//System.out.println("Acabe");
-		sc.close();
+			//System.out.println("Acabe");
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		};
 		return;
 	}
 }
