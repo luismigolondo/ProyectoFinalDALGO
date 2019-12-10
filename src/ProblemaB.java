@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -85,39 +88,44 @@ public class ProblemaB {
 	 */
 	public static void main(String[] args) {
 
-		Scanner sc = new Scanner(System.in);
-
-		String linea = sc.nextLine();
-		int i = 0;
-		while (sc.hasNextLine() && Integer.parseInt(linea.split(" ")[0]) != 0)
-		{
-			if(i == 0)
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String linea = null;
+		try {
+			int i = 0;
+			while ((linea = br.readLine()) != null) 
 			{
-				//Entonces es el tamanio del arreglo
-				N = Integer.parseInt(linea);
-				k = new int [N];				
-				a = new int [N];
-				b = new int [N];
-				System.out.println("N = " + N );
-			}
-			else
-			{
-				//es la tripla
-				String [] arreglo = linea.split(" ");
-				k[i-1] = Integer.parseInt(arreglo[0]);
-				a[i-1] = Integer.parseInt(arreglo[1]);
-				b[i-1] = Integer.parseInt(arreglo[2]);
-				System.out.println(k[i-1] + " " + a[i-1] + " " + b[i-1] + " ");
-				if(i % N == 0)
-					System.out.println(LIS(a, N));
+				if(i == 0)
+				{
+					//Entonces es el tamanio del arreglo
+					N = Integer.parseInt(linea);
+					k = new int [N];				
+					a = new int [N];
+					b = new int [N];
+					System.out.println("N = " + N );
+				}
+				else
+				{
+					//es la tripla
+					String [] arreglo = linea.split(" ");
+					k[i-1] = Integer.parseInt(arreglo[0]);
+					a[i-1] = Integer.parseInt(arreglo[1]);
+					b[i-1] = Integer.parseInt(arreglo[2]);
+					System.out.println(k[i-1] + " " + a[i-1] + " " + b[i-1] + " ");
+					if(i % N == 0)
+						System.out.println(LIS(a, N));
 
-			}
+				}
 
-			linea = sc.nextLine();
-			i++;
-			i = i % ( N + 1 );
-		}
-		sc.close();
+				if(linea.equals("0"))
+					return;
+				
+				i++;
+				i = i % ( N + 1 );
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		};
 		return;
 
 	}
