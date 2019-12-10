@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 /**
  * @author Luis Miguel Gomez 201729597 , Nicolas Rugeles 201731740
@@ -25,11 +24,6 @@ public class ProblemaC {
 
 	private int minX;
 
-	//private int tocaIzq;
-	//private int noTocaIzq;
-	//private int tocaDer;
-	//private int noTocaDer;
-
 	private int contadorDer;
 
 	private int contadorIzq;
@@ -43,16 +37,13 @@ public class ProblemaC {
 		CoordY=Y;
 		contadorDer=0;
 		contadorIzq=0;
-		//tocaDer=x1;
-		//noTocaIzq=x1;
-		//noTocaDer=x1;
-		//tocaIzq=x1;
+		
 		minX=min;
 		maxX=max;
 
 	}	
 	public int contar() {
-		//PONERLE EL PRIMER PUNTO AL FINAL A CADA UNO
+		
 		int resultado=-1;
 		for (int i=0; i<tamanio-1;i++) {
 			if(CoordX[i]==x && CoordY[i]==y) {
@@ -63,58 +54,17 @@ public class ProblemaC {
 				int rta=CompararY(i);
 				if (rta==1||rta==2)
 					contadorDer++;
-				/*
-				else if (rta==0) {
-					//FALTAAAAAAAAAAAA revisar si es un vertice 
-					if(CoordY[i]==CoordY[i+1]) {
-						int max =Math.max(CoordX[i],CoordX[i+1]);
-						if(max>tocaDer) {
-							tocaDer=max;
-						}
-					}
-					else if (CoordY[i]==y) {
-						if(CoordX[i]>tocaDer) {
-							tocaDer=CoordX[i];
-						}
-					}
-					else if (CoordY[i+1]==y) {
-						if(CoordX[i+1]>tocaDer) {
-							tocaDer=CoordX[i+1];
-						}
-					}
-
-				}
-				 */
-				//FALTA SUMARLE UNO A TOCADER
+				
 			}
 			else if (CoordX[i]<=x && CoordX[i+1]<x||CoordX[i]<x && CoordX[i+1]<=x) {//si ambos son mas pequenos
 				int rta=CompararY(i);
 				if (rta==1||rta==2)
 					contadorIzq++;
-				/*
-				if (rta==0) {
-					if(CoordY[i]==CoordY[i+1]) {
-						int min =Math.min(CoordX[i],CoordX[i+1]);
-						if(min>tocaDer) {
-							tocaDer=min;
-						}
-					}
-					else if (CoordY[i]==y) {
-						if(CoordX[i]<tocaIzq) {
-							tocaIzq=CoordX[i];
-						}
-					}
-					else if (CoordY[i+1]==y) {
-						if(CoordX[i+1]<tocaIzq) {
-							tocaIzq=CoordX[i+1];
-						}
-					}
-
-				}
-				 */
-				//FALTA SUMARLE UNO A TOCAIzq
+				
 			}
 			else if(CoordX[i]<x && CoordX[i+1]>x) {
+				if(CoordY[i]==y+1 && CoordY[i+1]==y+1)
+					return 0;
 				int rta=CompararY(i);
 				if (rta==1) {
 					VerificarPendiente(i);
@@ -144,28 +94,11 @@ public class ProblemaC {
 						return 0;
 					}	
 				}
-				/*
-				if (rta==0) {
-					//FALTAAAAAAAAAAAAA 
-					if(CoordY[i]==CoordY[i+1]) {
-						//TERMINAR
-						return 0;
-					}
-					else if (CoordY[i]==y) {
-						if(CoordX[i]<tocaIzq) {
-							tocaIzq=CoordX[i];
-						}
-					}
-					else if (CoordY[i+1]==y) {
-						if(CoordX[i+1]>tocaDer) {
-							tocaDer=CoordX[i+1];
-						}
-					}
-
-				}
-				 */
+				
 			}
 			else if (CoordX[i]>x && CoordX[i+1]<x) {
+				if(CoordY[i]==y+1 && CoordY[i+1]==y+1)
+					return 0;
 				int rta=CompararY(i);
 				if (rta==1) {
 					VerificarPendiente(i);
@@ -195,25 +128,7 @@ public class ProblemaC {
 						return 0;
 					}	
 				}
-				/*
-				if (rta==0) {
-					if(CoordY[i]==CoordY[i+1]) {
-						//TERMINAR
-						return 0;
-					}
-					else if (CoordY[i]==y) {
-						if(CoordX[i]>tocaDer) {
-							tocaDer=CoordX[i];
-						}
-					}
-					else if (CoordY[i+1]==y) {
-						if(CoordX[i+1]<tocaIzq) {
-							tocaIzq=CoordX[i+1];
-						}
-					}
-
-				}
-				 */
+				
 			}
 			else if (CoordX[i]==x && CoordX[i+1]==x) {
 				int rta=CompararY(i);
@@ -257,12 +172,8 @@ public class ProblemaC {
 	public int Resultado() {
 		int resultado=20;
 		if(x<minX || x>maxX)
-			return 0;
+			return -1;
 		int rta=contar();
-		//if (tocaDer==maxX)
-		//contadorDer++;
-		//if (tocaIzq==minX)
-		//contadorIzq++;
 		//System.out.println("contadorIzq"+ contadorIzq);
 		//System.out.println("contadorDer"+ contadorDer);
 
@@ -323,8 +234,7 @@ public class ProblemaC {
 					for (int j = 0; j < 2* N; j += 2) {
 						x[k] = Integer.parseInt(arreglo[j]);
 						y[k] = Integer.parseInt(arreglo[j+1]);
-						if (y[k]== b)
-							y[k]+=1;
+						
 						//System.out.print(x[k] + " ");
 						//System.out.print(y[k] + " ");
 						if (minimo>x[k]) {
@@ -333,10 +243,13 @@ public class ProblemaC {
 						if (maximo<x[k]) {
 							maximo=x[k];
 						}
+						if (y[k]== b && x[k]!=a)
+							y[k]+=1;
 						k++;
 					}
-					x[N] = Integer.parseInt(arreglo[0]);
-					y[N] = Integer.parseInt(arreglo[1]);
+					
+					x[N] = x[0];
+					y[N] = y[0];
 					//Aca se resuelve y responde
 					ProblemaC prob=new ProblemaC(N,a,b,x,y,M,minimo,maximo);
 					//System.out.println();
